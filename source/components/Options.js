@@ -219,7 +219,6 @@ class Options extends Component {
   };
 
   _handleKeyDown = event => {
-    debugger;
     const highlightOptionIndex = this.state.highlightedOptionIndex;
     switch (event.keyCode) {
       case 9: // Select currently highlighted option on Tab key
