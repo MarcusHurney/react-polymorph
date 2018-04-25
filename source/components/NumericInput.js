@@ -1,5 +1,6 @@
+// @flow
 import React, { Component } from "react";
-import { func, object, number, string, shape } from "prop-types";
+import { func, object, number, string, shape, bool } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // external libraries
@@ -11,12 +12,45 @@ import { StringOrElement, composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class NumericInput extends Component {
+type Props = {
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  disabled: boolean,
+  error: string | Element,
+  onChange: Function,
+  maxAfterDot: number,
+  maxBeforeDot: number,
+  maxValue: number,
+  minValue: number,
+  onRef: Function,
+  placeholder: string,
+  setError: Function,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object,
+  value: string
+};
+
+type State = {
+  composedTheme: Object,
+  caretPosition: number,
+  separatorsCount: number,
+  error: string,
+  oldValue: string
+};
+
+class NumericInput extends Component<Props, State> {
+  inputElement: HTMLInputElement;
+
   static propTypes = {
     context: shape({
       theme: object,
       ROOT_THEME_API: object
     }),
+    disabled: bool,
     error: StringOrElement,
     onChange: func,
     maxAfterDot: number, // max number of characters after dot
@@ -25,6 +59,7 @@ class NumericInput extends Component {
     minValue: number, // min allowed numeric value
     onRef: func,
     placeholder: string,
+    setError: func,
     skin: func.isRequired,
     theme: object,
     themeId: string,
@@ -33,6 +68,7 @@ class NumericInput extends Component {
   };
 
   static defaultProps = {
+    disabled: false,
     error: "",
     onRef: () => {},
     theme: null,
@@ -52,10 +88,10 @@ class NumericInput extends Component {
         addThemeId(themeOverrides, themeId),
         context.ROOT_THEME_API
       ),
-      caretPosition: 0, // Current caret position
-      separatorsCount: 0, // Number of comma separators used for calculating caret position after separators are injected
-      error: null, // Inner (Component) state error // e.g. if value > maxValue set error message
-      oldValue: null // Last recorded value before input change
+      caretPosition: 0,
+      separatorsCount: 0,
+      error: "",
+      oldValue: ""
     };
   }
 
@@ -97,15 +133,14 @@ class NumericInput extends Component {
     }
   }
 
-  onChange = event => {
+  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange, disabled } = this.props;
 
     if (disabled) return;
 
     const processedValue = this._processValue(
       event.target.value,
-      event.target.selectionStart,
-      {}
+      event.target.selectionStart
     );
 
     if (onChange) onChange(processedValue, event);
@@ -115,7 +150,7 @@ class NumericInput extends Component {
 
   blur = () => this.inputElement.blur();
 
-  _setError = error => {
+  _setError = (error: string) => {
     const { setError } = this.props;
 
     // checks for setError func from FormField component
@@ -126,7 +161,7 @@ class NumericInput extends Component {
     this.setState({ error });
   };
 
-  _processValue(value, position) {
+  _processValue(value: string, position: number) {
     return flow([
       this._enforceNumericValue,
       this._parseToParts,
@@ -135,7 +170,7 @@ class NumericInput extends Component {
     ]).call(this, value, position);
   }
 
-  _enforceNumericValue(value, position) {
+  _enforceNumericValue(value: string, position: number) {
     const regex = /^[0-9.,]+$/;
     let isValueRegular = regex.test(value);
     let handledValue;
@@ -165,7 +200,8 @@ class NumericInput extends Component {
             handledValue = lastValidValue;
           }
         } else {
-          handledValue = splitedValue[0] + "." + splitedValue[1] + splitedValue[2];
+          handledValue =
+            splitedValue[0] + "." + splitedValue[1] + splitedValue[2];
           // Second dot was entered after current one -> stay in same position (swallow dot)
           if (position > beforeDot.length + 1) {
             position -= 1;
@@ -198,7 +234,7 @@ class NumericInput extends Component {
       : { value, position };
   }
 
-  _parseToParts(data) {
+  _parseToParts(data: { value: string, position: number }) {
     const value = data.value;
     let position = data.position;
 
@@ -232,7 +268,14 @@ class NumericInput extends Component {
     return { value, position, parts: { beforeDot, afterDot } };
   }
 
-  _enforceMaxLengths(data) {
+  _enforceMaxLengths(data: {
+    value: string,
+    position: number,
+    parts: {
+      beforeDot: string,
+      afterDot: string
+    }
+  }) {
     if (!data) return;
 
     const { maxBeforeDot, maxAfterDot, minValue, maxValue } = this.props;
@@ -281,14 +324,14 @@ class NumericInput extends Component {
     ) {
       this._setError("Please enter a valid amount");
     } else if (this.state.error !== "") {
-      this._setError(null);
+      this._setError("");
     }
 
     this.setState({ caretPosition: position });
     return result;
   }
 
-  _separate(value, position) {
+  _separate(value: string) {
     this.setState({ oldValue: value });
     if (value) {
       const splitedValue = value.split(".");
@@ -307,7 +350,7 @@ class NumericInput extends Component {
     }
   }
 
-  _isNumeric(value) {
+  _isNumeric(value: string) {
     const replacedValue = value.replace(/,/g, "");
     return !isNaN(parseFloat(replacedValue)) && isFinite(replacedValue);
   }
