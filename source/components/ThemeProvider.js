@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { ThemeContext } from "../themes/ThemeContext";
 import { object, string, element } from "prop-types";
@@ -12,9 +13,21 @@ import ROOT_THEME_API from "../themes/API";
 // internal utility functions
 import { composeTheme } from "../utils";
 
-class ThemeProvider extends Component {
+type Props = {
+  children: ?Element,
+  theme: Object,
+  themeOverrides: Object
+};
+
+type State = {
+  theme: Object,
+  ROOT_THEME_API: Object
+};
+
+class ThemeProvider extends Component<Props, State> {
   static propTypes = {
-    theme: object,
+    children: element.isRequired,
+    theme: object.isRequired,
     themeOverrides: object // custom css/scss from user that adheres to shape of ROOT_THEME_API
   };
 
@@ -22,7 +35,7 @@ class ThemeProvider extends Component {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: object) {
     super(props);
 
     const { theme, themeOverrides } = props;
@@ -62,7 +75,11 @@ class ThemeProvider extends Component {
   //   formField: { root: '', label: '', error: '' },
   //   ... and so on, creating a complete theme for the library,
   //  }
-  composeLibraryTheme = (theme, themeOverrides, ROOT_THEME_API) => {
+  composeLibraryTheme = (
+    theme: Object,
+    themeOverrides: Object,
+    ROOT_THEME_API: Object
+  ) => {
     if (_.isEmpty(themeOverrides)) {
       return theme;
     } else {
