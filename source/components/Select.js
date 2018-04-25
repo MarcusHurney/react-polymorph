@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { bool, func, object, arrayOf, shape, string } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -8,7 +9,37 @@ import { composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class Select extends Component {
+type Props = {
+  allowBlank: boolean,
+  autoFocus: boolean,
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  isOpeningUpward: boolean,
+  onBlur: Function,
+  onChange: Function,
+  onFocus: Function,
+  options: Array<{
+    isDisabled: boolean,
+    value: any
+  }>,
+  placeholder: string,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object,
+  value: string
+};
+
+type State = {
+  composedTheme: Object,
+  isOpen: boolean
+};
+
+class Select extends Component<Props, State> {
+  inputElement: HTMLInputElement;
+
   static propTypes = {
     allowBlank: bool,
     autoFocus: bool,
@@ -74,14 +105,14 @@ class Select extends Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
-  handleInputClick = event => {
+  handleInputClick = (event: SyntheticMouseEvent<>) => {
     event.stopPropagation();
     event.preventDefault();
     this.inputElement.blur();
     this.toggleOpen();
   };
 
-  handleChange = (option, event) => {
+  handleChange = (option: Object, event: SyntheticEvent<>) => {
     if (this.props.onChange) this.props.onChange(option.value, event);
     this.toggleOpen();
   };
