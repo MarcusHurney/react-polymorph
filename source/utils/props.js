@@ -1,3 +1,4 @@
+// @flow
 import { oneOfType, string, element } from "prop-types";
 import filterReactDomProps from "filter-react-dom-props";
 
@@ -8,7 +9,8 @@ const pickDOMProps = filterReactDomProps;
 // ensures that a prop passed to a component is either a string or element
 const StringOrElement = oneOfType([string, element]);
 
-const composeFunctions = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args));
+const composeFunctions = (...fns: [Function]) => (...args: [any]) =>
+  fns.forEach(fn => fn && fn(...args));
 
 export default {
   pickDOMProps,
