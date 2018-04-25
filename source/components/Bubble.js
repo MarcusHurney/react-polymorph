@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { string, bool, func, object, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -14,7 +15,29 @@ import {
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class Bubble extends Component {
+type Props = {
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  isHidden: boolean,
+  isFloating: boolean,
+  isOpeningUpward: boolean,
+  isTransparent: boolean,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object
+};
+
+type State = {
+  composedTheme: Object,
+  position: ?Object
+};
+
+class Bubble extends Component<Props, State> {
+  rootElement: ?Element;
+
   static propTypes = {
     context: shape({
       theme: object,
@@ -89,7 +112,7 @@ class Bubble extends Component {
 
   // =========== PRIVATE HELPERS ==============
 
-  _handleScrollEventListener = action => {
+  _handleScrollEventListener = (action: string) => {
     const rootNode = this.rootElement;
     const scrollableNode = this._getFirstScrollableParent(rootNode);
     if (scrollableNode) {
@@ -110,10 +133,10 @@ class Bubble extends Component {
     }
   }
 
-  _getFirstScrollableParent = node => {
+  _getFirstScrollableParent = (node: ?Element) => {
     if (node == null) return null;
     if (node === this.rootElement || node.scrollHeight <= node.clientHeight) {
-      return this._getFirstScrollableParent(node.parentNode);
+      return this._getFirstScrollableParent(node.parentElement);
     } else {
       return node;
     }
@@ -122,22 +145,26 @@ class Bubble extends Component {
   _updatePosition = () => {
     const { isOpeningUpward } = this.props;
     const rootNode = this.rootElement;
-    const parentNode = rootNode.parentNode;
-    const parentNodeParams = parentNode.getBoundingClientRect();
+    const parentNode = rootNode ? rootNode.parentElement : null;
+    const parentNodeParams = parentNode
+      ? parentNode.getBoundingClientRect()
+      : null;
 
-    let positionY;
-    if (isOpeningUpward) {
-      positionY = window.innerHeight - parentNodeParams.top + 20;
-    } else {
-      positionY = parentNodeParams.bottom + 20;
+    if (parentNodeParams !== null) {
+      let positionY;
+      if (isOpeningUpward) {
+        positionY = window.innerHeight - parentNodeParams.top + 20;
+      } else {
+        positionY = parentNodeParams.bottom + 20;
+      }
+
+      const position = {
+        width: parentNodeParams.width,
+        positionX: parentNodeParams.left,
+        positionY
+      };
+      this.setState({ position });
     }
-
-    const position = {
-      width: parentNodeParams.width,
-      positionX: parentNodeParams.left,
-      positionY
-    };
-    this.setState({ position });
   };
 
   _getDocumentEvents() {
