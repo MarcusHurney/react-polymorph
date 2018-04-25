@@ -46,7 +46,9 @@ export default props => {
           key={index}
           className={classnames([
             theme[themeId].option,
-            isHighlightedOption(index) ? theme[themeId].highlightedOption : null,
+            isHighlightedOption(index)
+              ? theme[themeId].highlightedOption
+              : null,
             option.isDisabled ? theme[themeId].disabledOption : null
           ])}
           onClick={event => handleClickOnOption(option, event)}
@@ -54,7 +56,9 @@ export default props => {
         >
           {optionRenderer
             ? optionRenderer(option)
-            : typeof option === "object" ? option.label : option}
+            : typeof option === "object"
+              ? option.label
+              : option}
         </li>
       ));
     } else {

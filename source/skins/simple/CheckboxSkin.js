@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 // external libraries
-import classnames from 'classnames';
+import classnames from "classnames";
 
 // internal utility functions
-import { pickDOMProps } from '../../utils';
+import { pickDOMProps } from "../../utils";
 
 export default props => (
   <div
@@ -23,7 +23,7 @@ export default props => (
     <input
       {...pickDOMProps(props)}
       className={props.theme[props.themeId].input}
-      type='checkbox'
+      type="checkbox"
     />
     <div
       className={classnames([

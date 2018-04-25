@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 // external libraries
-import classnames from 'classnames';
+import classnames from "classnames";
 
 // internal utility functions
-import { pickDOMProps } from '../../utils';
+import { pickDOMProps } from "../../utils";
 
 export default props => {
   const { theme, themeId } = props;
@@ -34,7 +34,7 @@ export default props => {
           props.checked ? theme[themeId].checked : null
         ])}
       >
-        <span className={theme[themeId].thumb}/>
+        <span className={theme[themeId].thumb} />
       </div>
       {props.label ? (
         <label className={theme[themeId].label}>{props.label}</label>
