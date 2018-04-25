@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import type { ComponentType } from "react";
 import { withTheme } from "../themes/withTheme";
 
 // import utility functions
@@ -17,7 +18,7 @@ type Props = {
   isBounded: boolean,
   isOpeningUpward: boolean,
   isTransparent: boolean,
-  skin: Function,
+  skin: ComponentType<any>,
   theme: Object, // will take precedence over theme in context if passed
   themeOverrides: Object, // custom css/scss from user that adheres to component's theme API
   themeId: string,

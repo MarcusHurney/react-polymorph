@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import type { ComponentType } from "react";
 import { withTheme } from "../themes/withTheme";
 
 // internal utiltity functions
@@ -16,7 +17,7 @@ type Props = {
   },
   isActive: boolean,
   onClose: Function,
-  skin: Function,
+  skin: ComponentType<any>,
   triggerCloseOnOverlayClick: boolean,
   theme: Object, // will take precedence over theme in context if passed
   themeId: string,

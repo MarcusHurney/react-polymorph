@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import type { ComponentType } from "react";
 import { withTheme } from "../themes/withTheme";
 
 // external libraries
@@ -26,7 +27,7 @@ type Props = {
   onRef: Function,
   placeholder: string,
   setError: Function,
-  skin: Function,
+  skin: ComponentType<any>,
   theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object,

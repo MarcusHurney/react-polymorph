@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import type { ComponentType } from "react";
 import ReactDOM from "react-dom";
 import { withTheme } from "../themes/withTheme";
 
@@ -37,7 +38,7 @@ type Props = {
   render: Function,
   resetOnClose: boolean,
   selectedOptionValue: string,
-  skin: Function,
+  skin: ComponentType<any>,
   selectedOptions: Array<any>,
   theme: Object, // will take precedence over theme in context if passed
   themeId: string,
