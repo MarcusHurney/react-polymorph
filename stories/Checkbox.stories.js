@@ -34,7 +34,9 @@ storiesOf("Checkbox", module)
 
   .add(
     "disabled",
-    withState({ checked: false }, store => <Checkbox disabled skin={CheckboxSkin} />)
+    withState({ checked: false }, store => (
+      <Checkbox disabled skin={CheckboxSkin} />
+    ))
   )
 
   .add(

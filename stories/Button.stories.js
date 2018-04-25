@@ -22,7 +22,9 @@ storiesOf("Button", module)
 
   .add("plain", () => <Button label="Button label" skin={ButtonSkin} />)
 
-  .add("disabled", () => <Button disabled label="Button label" skin={ButtonSkin} />)
+  .add("disabled", () => (
+    <Button disabled label="Button label" skin={ButtonSkin} />
+  ))
 
   .add("theme overrides", () => (
     <Button

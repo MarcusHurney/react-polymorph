@@ -8,7 +8,11 @@ import { withState } from "@dump247/storybook-state";
 import { Autocomplete, Select, Options } from "../source/components";
 
 // skins
-import { AutocompleteSkin, OptionsSkin, SelectSkin } from "../source/skins/simple";
+import {
+  AutocompleteSkin,
+  OptionsSkin,
+  SelectSkin
+} from "../source/skins/simple";
 
 // themes
 import SimpleTheme from "../source/themes/simple";

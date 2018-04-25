@@ -8,7 +8,11 @@ import { withState } from "@dump247/storybook-state";
 import { Autocomplete, Modal, Button } from "../source/components";
 
 // skins
-import { AutocompleteSkin, ModalSkin, ButtonSkin } from "../source/skins/simple";
+import {
+  AutocompleteSkin,
+  ModalSkin,
+  ButtonSkin
+} from "../source/skins/simple";
 
 // themes
 import SimpleTheme from "../source/themes/simple";
@@ -40,7 +44,9 @@ const OPTIONS = [
 storiesOf("Autocomplete", module)
   // ====== Stories ======
 
-  .add("Enter mnemonics - plain", () => <Autocomplete skin={AutocompleteSkin} />)
+  .add("Enter mnemonics - plain", () => (
+    <Autocomplete skin={AutocompleteSkin} />
+  ))
 
   .add("Enter mnemonics - label", () => (
     <Autocomplete label="Recovery phrase" skin={AutocompleteSkin} />
@@ -221,7 +227,9 @@ storiesOf("Autocomplete", module)
 
           return selectedOptions.map((option, index) => (
             <span className={theme.selectedWordBox} key={index}>
-              <span style={{ color: "#fff", margin: "2px 5px 0 0" }}>{option}</span>
+              <span style={{ color: "#fff", margin: "2px 5px 0 0" }}>
+                {option}
+              </span>
 
               <span
                 style={{ cursor: "pointer" }}
@@ -277,7 +285,9 @@ storiesOf("Autocomplete", module)
                 key={index}
                 className={classnames([
                   theme.option,
-                  isHighlightedOption(index) ? themeOverrides.customHighlight : null,
+                  isHighlightedOption(index)
+                    ? themeOverrides.customHighlight
+                    : null,
                   option.isDisabled ? theme.disabledOption : null
                 ])}
                 onMouseEnter={onMouseEnter.bind(null, index)}
