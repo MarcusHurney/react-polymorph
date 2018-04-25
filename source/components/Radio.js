@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { bool, func, object, string, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -8,7 +9,28 @@ import { StringOrElement, composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class Radio extends Component {
+type Props = {
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  disabled: boolean,
+  label: string | Element,
+  onBlur: Function,
+  onChange: Function,
+  onFocus: Function,
+  selected: boolean,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object
+};
+
+type State = {
+  composedTheme: Object
+};
+
+class Radio extends Component<Props, State> {
   static propTypes = {
     context: shape({
       theme: object,
