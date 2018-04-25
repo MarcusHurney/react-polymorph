@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { string, bool, func, object, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -8,7 +9,26 @@ import { StringOrElement, composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class Modal extends Component {
+type Props = {
+  contentLabel: string | Element,
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  isActive: boolean,
+  onClose: Function,
+  skin: Function,
+  triggerCloseOnOverlayClick: boolean,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object
+};
+
+type State = {
+  composedTheme: Object
+};
+
+class Modal extends Component<Props, State> {
   static propTypes = {
     contentLabel: StringOrElement,
     context: shape({
