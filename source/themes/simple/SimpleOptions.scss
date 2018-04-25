@@ -1,5 +1,5 @@
-@import 'theme';
-@import 'mixins/arrow';
+@import "theme";
+@import "mixins/arrow";
 
 // OVERRIDABLE CONFIGURATION VARIABLES
 
@@ -25,16 +25,31 @@ $options-bubble-arrow: true !default;
 
   @if $options-bubble-arrow == true {
     [data-bubble-arrow] {
-      @include arrow(up, $option-bg-color, $options-border-color, $options-arrow-size);
+      @include arrow(
+        up,
+        $option-bg-color,
+        $options-border-color,
+        $options-arrow-size
+      );
     }
 
     &.firstOptionHighlighted {
       &:not(.openUpward) [data-bubble-arrow] {
-        @include arrow(up, $option-highlight-color !important, $options-border-color, $options-arrow-size);
+        @include arrow(
+          up,
+          $option-highlight-color !important,
+          $options-border-color,
+          $options-arrow-size
+        );
       }
       &.openUpward [data-bubble-arrow] {
         height: inherit;
-        @include arrow(down, $option-highlight-color !important, $options-border-color, $options-arrow-size);
+        @include arrow(
+          down,
+          $option-highlight-color !important,
+          $options-border-color,
+          $options-arrow-size
+        );
       }
     }
   } @else {
@@ -79,11 +94,21 @@ $options-bubble-arrow: true !default;
       top: inherit;
 
       [data-bubble-arrow] {
-        @include arrow(down, $option-bg-color, $options-border-color, $options-arrow-size);
+        @include arrow(
+          down,
+          $option-bg-color,
+          $options-border-color,
+          $options-arrow-size
+        );
       }
 
       &.firstOptionHighlighted [data-bubble-arrow] {
-        @include arrow(down, $option-highlight-color, $options-border-color, $options-arrow-size);
+        @include arrow(
+          down,
+          $option-highlight-color,
+          $options-border-color,
+          $options-arrow-size
+        );
       }
     }
   }
