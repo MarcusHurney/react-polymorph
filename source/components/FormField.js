@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { string, bool, func, object, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -8,7 +9,29 @@ import { StringOrElement, composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class FormField extends Component {
+type Props = {
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  disabled: boolean,
+  error: string | Element,
+  label: string | Element,
+  render: Function,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object
+};
+
+type State = {
+  error: string,
+  composedTheme: Object
+};
+
+class FormField extends Component<Props, State> {
+  child: HTMLInputElement;
+
   static propTypes = {
     context: shape({
       theme: object,
@@ -46,7 +69,7 @@ class FormField extends Component {
     };
   }
 
-  setError = error => this.setState({ error });
+  setError = (error: string) => this.setState({ error });
 
   focusChild = () => {
     if (this.child && this.child.focus !== undefined) {
@@ -54,7 +77,7 @@ class FormField extends Component {
     }
   };
 
-  onRef = ref => (this.child = ref);
+  onRef = (ref: HTMLInputElement) => (this.child = ref);
 
   render() {
     // destructuring props ensures only the "...rest" get passed down
