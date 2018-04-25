@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { bool, func, object, string, number, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -11,10 +12,42 @@ import { StringOrElement, composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class TextArea extends Component {
+type Props = {
+  autoFocus: boolean,
+  autoResize: boolean,
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  disabled: boolean,
+  error: string | Element,
+  maxLength: number,
+  minLength: number,
+  onBlur: Function,
+  onChange: Function,
+  onFocus: Function,
+  onRef: Function,
+  placeholder: string,
+  rows: number,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object,
+  value: string
+};
+
+type State = {
+  error: string,
+  composedTheme: Object
+};
+
+class TextArea extends Component<Props, State> {
+  textareaElement: HTMLTextAreaElement;
+
   static propTypes = {
     autoFocus: bool,
     autoResize: bool,
+    disabled: bool,
     context: shape({
       theme: object,
       ROOT_THEME_API: object
@@ -97,16 +130,16 @@ class TextArea extends Component {
 
   focus = () => this.textareaElement.focus();
 
-  onChange = event => {
+  onChange = (event: SyntheticInputEvent<>) => {
     const { onChange, disabled } = this.props;
     if (disabled) return;
 
     if (onChange) onChange(this._processValue(event.target.value), event);
   };
 
-  _setError = error => this.setState({ error });
+  _setError = (error: string) => this.setState({ error });
 
-  _processValue(value) {
+  _processValue(value: string) {
     return flow([
       this._enforceStringValue,
       this._enforceMaxLength,
@@ -114,47 +147,49 @@ class TextArea extends Component {
     ]).call(this, value);
   }
 
-  _enforceStringValue(value) {
-    if (!isString(value)) throw "Values passed to Input::onChange must be strings";
+  _enforceStringValue(value: string) {
+    if (!isString(value))
+      throw "Values passed to Input::onChange must be strings";
     return value;
   }
 
-  _enforceMaxLength(value) {
+  _enforceMaxLength(value: string) {
     const { maxLength } = this.props;
     const isTooLong = maxLength != null && value.length > maxLength;
     return isTooLong ? value.substring(0, maxLength) : value;
   }
 
-  _enforceMinLength = value => {
+  _enforceMinLength(value: string) {
     const { minLength } = this.props;
     const isTooShort = minLength != null && value.length < minLength;
 
     if (isTooShort) {
       this._setError(`Please enter a valid input`);
     } else if (this.state.error !== "") {
-      this._setError(null);
+      this._setError("");
     }
 
     return value;
-  };
+  }
 
-  _handleAutoresize = () => {
+  _handleAutoresize() {
     const { textareaElement } = this;
 
     if (!textareaElement) return;
 
     // compute the height difference between inner height and outer height
-    const style = getComputedStyle(textareaElement, null);
+    const style = getComputedStyle(textareaElement, "");
     const heightOffset =
       style.boxSizing === "content-box"
         ? -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom))
-        : parseFloat(style.borderTopWidth) + parseFloat(style.borderBottomWidth);
+        : parseFloat(style.borderTopWidth) +
+          parseFloat(style.borderBottomWidth);
 
     // resize the input to its content size
     textareaElement.style.height = "auto";
     textareaElement.style.height = `${textareaElement.scrollHeight +
       heightOffset}px`;
-  };
+  }
 
   render() {
     // destructuring props ensures only the "...rest" get passed down
