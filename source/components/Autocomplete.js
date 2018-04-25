@@ -1,27 +1,12 @@
 // @flow
 import React, { Component } from "react";
-import {
-  bool,
-  func,
-  object,
-  number,
-  array,
-  string,
-  instanceOf,
-  shape
-} from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // external libraries
 import _ from "lodash";
 
 // internal utility functions
-import {
-  StringOrElement,
-  composeTheme,
-  composeFunctions,
-  addThemeId
-} from "../utils";
+import { composeTheme, composeFunctions, addThemeId } from "../utils";
 
 import { IDENTIFIERS } from "../themes/API";
 
@@ -45,7 +30,7 @@ type Props = {
   renderOptions: Function,
   skin: Function,
   sortAlphabetically: boolean,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object
 };
@@ -64,31 +49,6 @@ class Autocomplete extends Component<Props, State> {
   inputElement: HTMLInputElement;
   suggestionsElement: ?Element;
 
-  // static propTypes = {
-  //   context: shape({
-  //     theme: object,
-  //     ROOT_THEME_API: object
-  //   }),
-  //   error: StringOrElement,
-  //   invalidCharsRegex: instanceOf(RegExp),
-  //   isOpeningUpward: bool,
-  //   label: StringOrElement,
-  //   maxSelections: number,
-  //   maxVisibleOptions: number,
-  //   multipleSameSelections: bool,
-  //   onChange: func,
-  //   options: array,
-  //   selectedOptions: array,
-  //   placeholder: string,
-  //   renderSelections: func,
-  //   renderOptions: func,
-  //   skin: func.isRequired,
-  //   sortAlphabetically: bool,
-  //   theme: object,
-  //   themeId: string,
-  //   themeOverrides: object
-  // };
-
   static defaultProps = {
     error: null,
     invalidCharsRegex: /[^a-zA-Z0-9]/g, // only allow letters and numbers by default
@@ -102,7 +62,7 @@ class Autocomplete extends Component<Props, State> {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const {

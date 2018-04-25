@@ -1,13 +1,12 @@
 // @flow
 import React, { Component } from "react";
-import { bool, func, object, number, string, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // external libraries
 import { isString, flow } from "lodash";
 
 // internal utility functions
-import { StringOrElement, composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from "../utils";
 
 // import constants
 import { IDENTIFIERS } from "../themes/API";
@@ -31,7 +30,7 @@ type Props = {
   readOnly: boolean,
   setError: Function,
   skin: Function,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object,
   value: string
@@ -45,31 +44,6 @@ type State = {
 class Input extends Component<Props, State> {
   inputElement: HTMLInputElement;
 
-  static propTypes = {
-    autoFocus: bool,
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    disabled: bool,
-    error: StringOrElement,
-    onBlur: func,
-    onChange: func,
-    onFocus: func,
-    onRef: func,
-    maxLength: number,
-    minLength: number,
-    onKeyPress: func,
-    placeholder: string,
-    readOnly: bool,
-    setError: func,
-    skin: func.isRequired,
-    theme: object,
-    themeId: string,
-    themeOverrides: object, // custom css/scss from user that adheres to component's theme API
-    value: string
-  };
-
   static defaultProps = {
     autoFocus: false,
     error: "",
@@ -81,7 +55,7 @@ class Input extends Component<Props, State> {
     value: ""
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;

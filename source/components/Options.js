@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { bool, func, object, array, string, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // external libraries
@@ -9,7 +8,6 @@ import classnames from "classnames";
 
 // internal utility functions
 import {
-  StringOrElement,
   composeTheme,
   addEventsToDocument,
   removeEventsFromDocument,
@@ -41,7 +39,7 @@ type Props = {
   selectedOptionValue: string,
   skin: Function,
   selectedOptions: Array<any>,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object
 };
@@ -55,31 +53,6 @@ type State = {
 class Options extends Component<Props, State> {
   optionsElement: ?Element;
 
-  static propTypes = {
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    inputValue: string,
-    isOpen: bool,
-    isOpeningUpward: bool,
-    noResults: bool,
-    noResultsMessage: StringOrElement,
-    onBlur: func,
-    onChange: func,
-    onClose: func,
-    options: array,
-    optionRenderer: func,
-    render: func,
-    resetOnClose: bool, // reset highlighted option on options close (e.g. in autocomplete)
-    selectedOptionValue: string,
-    skin: func.isRequired,
-    selectedOptions: array,
-    theme: object,
-    themeId: string,
-    themeOverrides: object // custom css/scss from user that adheres to component's theme API
-  };
-
   static defaultProps = {
     isOpen: false,
     isOpeningUpward: false,
@@ -90,7 +63,7 @@ class Options extends Component<Props, State> {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides, isOpen } = props;

@@ -1,10 +1,9 @@
 // @flow
 import React, { Component } from "react";
-import { string, bool, func, object, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // import utility functions
-import { StringOrElement, composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from "../utils";
 
 // import constants
 import { IDENTIFIERS } from "../themes/API";
@@ -19,7 +18,7 @@ type Props = {
   label: string | Element,
   render: Function,
   skin: Function,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object
 };
@@ -32,21 +31,6 @@ type State = {
 class FormField extends Component<Props, State> {
   child: HTMLInputElement;
 
-  static propTypes = {
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    disabled: bool,
-    error: StringOrElement,
-    label: StringOrElement,
-    render: func.isRequired,
-    skin: func.isRequired,
-    theme: object,
-    themeId: string,
-    themeOverrides: object // custom css/scss from user that adheres to component's theme API
-  };
-
   static defaultProps = {
     disabled: false,
     theme: null,
@@ -54,7 +38,7 @@ class FormField extends Component<Props, State> {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;

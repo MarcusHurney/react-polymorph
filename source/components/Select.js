@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from "react";
-import { bool, func, object, arrayOf, shape, string } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // import internal utility functions
@@ -26,7 +25,7 @@ type Props = {
   }>,
   placeholder: string,
   skin: Function,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object,
   value: string
@@ -40,31 +39,6 @@ type State = {
 class Select extends Component<Props, State> {
   inputElement: HTMLInputElement;
 
-  static propTypes = {
-    allowBlank: bool,
-    autoFocus: bool,
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    isOpeningUpward: bool,
-    onBlur: func,
-    onChange: func,
-    onFocus: func,
-    options: arrayOf(
-      shape({
-        isDisabled: bool,
-        value: string.isRequired
-      })
-    ).isRequired,
-    placeholder: string,
-    skin: func.isRequired,
-    theme: object,
-    themeId: string,
-    themeOverrides: object, // custom css/scss from user that adheres to component's theme API
-    value: string
-  };
-
   static defaultProps = {
     allowBlank: true,
     autoFocus: false,
@@ -75,7 +49,7 @@ class Select extends Component<Props, State> {
     value: ""
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;

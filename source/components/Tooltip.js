@@ -1,10 +1,9 @@
 // @flow
 import React, { Component } from "react";
-import { bool, func, object, string, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // import utility functions
-import { StringOrElement, composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from "../utils";
 
 // import constants
 import { IDENTIFIERS } from "../themes/API";
@@ -19,8 +18,8 @@ type Props = {
   isOpeningUpward: boolean,
   isTransparent: boolean,
   skin: Function,
-  theme: Object,
-  themeOverrides: Object,
+  theme: Object, // will take precedence over theme in context if passed
+  themeOverrides: Object, // custom css/scss from user that adheres to component's theme API
   themeId: string,
   tip: string | Element
 };
@@ -30,22 +29,6 @@ type State = {
 };
 
 class Tooltip extends Component<Props, State> {
-  static propTypes = {
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    isAligningRight: bool,
-    isBounded: bool,
-    isOpeningUpward: bool,
-    isTransparent: bool,
-    skin: func.isRequired,
-    theme: object,
-    themeOverrides: object, // custom css/scss from user that adheres to component's theme API
-    themeId: string,
-    tip: StringOrElement
-  };
-
   static defaultProps = {
     isOpeningUpward: true,
     isTransparent: true,
@@ -54,7 +37,7 @@ class Tooltip extends Component<Props, State> {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;

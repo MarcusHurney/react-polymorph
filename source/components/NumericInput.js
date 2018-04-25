@@ -1,13 +1,12 @@
 // @flow
 import React, { Component } from "react";
-import { func, object, number, string, shape, bool } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // external libraries
 import { flow } from "lodash";
 
 // internal utility functions
-import { StringOrElement, composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from "../utils";
 
 // import constants
 import { IDENTIFIERS } from "../themes/API";
@@ -28,7 +27,7 @@ type Props = {
   placeholder: string,
   setError: Function,
   skin: Function,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
   themeOverrides: Object,
   value: string
@@ -45,28 +44,6 @@ type State = {
 class NumericInput extends Component<Props, State> {
   inputElement: HTMLInputElement;
 
-  static propTypes = {
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    disabled: bool,
-    error: StringOrElement,
-    onChange: func,
-    maxAfterDot: number, // max number of characters after dot
-    maxBeforeDot: number, // max number of characters before dot
-    maxValue: number, // max allowed numeric value
-    minValue: number, // min allowed numeric value
-    onRef: func,
-    placeholder: string,
-    setError: func,
-    skin: func.isRequired,
-    theme: object,
-    themeId: string,
-    themeOverrides: object, // custom css/scss from user that adheres to component's theme API
-    value: string
-  };
-
   static defaultProps = {
     disabled: false,
     error: "",
@@ -77,7 +54,7 @@ class NumericInput extends Component<Props, State> {
     value: ""
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;

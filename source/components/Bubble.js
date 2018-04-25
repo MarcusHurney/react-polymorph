@@ -1,13 +1,11 @@
 // @flow
 import React, { Component } from "react";
-import { string, bool, func, object, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
 
 // internal utility functions
 import {
   addEventsToDocument,
   removeEventsFromDocument,
-  StringOrElement,
   composeTheme,
   addThemeId
 } from "../utils";
@@ -25,9 +23,9 @@ type Props = {
   isOpeningUpward: boolean,
   isTransparent: boolean,
   skin: Function,
-  theme: Object,
+  theme: Object, // will take precedence over theme in context if passed
   themeId: string,
-  themeOverrides: Object
+  themeOverrides: Object // custom css/scss from user that adheres to component's theme API
 };
 
 type State = {
@@ -37,21 +35,6 @@ type State = {
 
 class Bubble extends Component<Props, State> {
   rootElement: ?Element;
-
-  static propTypes = {
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    isHidden: bool,
-    isFloating: bool,
-    isOpeningUpward: bool,
-    isTransparent: bool,
-    skin: func.isRequired,
-    theme: object, // takes precedence over theme in context
-    themeId: string,
-    themeOverrides: object // custom css/scss from user that adheres to component's theme API
-  };
 
   static defaultProps = {
     isHidden: false,
@@ -63,7 +46,7 @@ class Bubble extends Component<Props, State> {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;
