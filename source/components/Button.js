@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { string, bool, func, object, shape } from "prop-types";
 import { withTheme } from "../themes/withTheme";
@@ -8,7 +9,25 @@ import { StringOrElement, composeTheme, addThemeId } from "../utils";
 // import constants
 import { IDENTIFIERS } from "../themes/API";
 
-class Button extends Component {
+type Props = {
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  disabled: boolean,
+  label: string | Element,
+  onClick: Function,
+  skin: Function,
+  theme: Object,
+  themeId: string,
+  themeOverrides: Object
+};
+
+type State = {
+  composedTheme: Object
+};
+
+class Button extends Component<Props, State> {
   static propTypes = {
     context: shape({
       theme: object,
