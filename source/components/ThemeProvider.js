@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
+import type { Node } from "react";
 import { ThemeContext } from "../themes/ThemeContext";
-import { object, string, element } from "prop-types";
 
 // external libraries
 import _ from "lodash";
@@ -14,9 +14,9 @@ import ROOT_THEME_API from "../themes/API";
 import { composeTheme } from "../utils";
 
 type Props = {
-  children: ?Element,
+  children: Node,
   theme: Object,
-  themeOverrides: Object
+  themeOverrides: Object // custom css/scss from user that adheres to shape of ROOT_THEME_API
 };
 
 type State = {
@@ -25,17 +25,11 @@ type State = {
 };
 
 class ThemeProvider extends Component<Props, State> {
-  static propTypes = {
-    children: element.isRequired,
-    theme: object.isRequired,
-    themeOverrides: object // custom css/scss from user that adheres to shape of ROOT_THEME_API
-  };
-
   static defaultProps = {
     themeOverrides: {}
   };
 
-  constructor(props: object) {
+  constructor(props: Props) {
     super(props);
 
     const { theme, themeOverrides } = props;
@@ -46,22 +40,22 @@ class ThemeProvider extends Component<Props, State> {
     };
   }
 
-  // // prevents frequent rerenders of ThemeProvider's children by
-  // // checking if theme and/or themeOverrides props have changed
-  // componentWillReceiveProps(nextProps) {
-  //   const { theme, themeOverrides } = nextProps;
-  //
-  //   const changedProps = _.pickBy(
-  //     { theme, themeOverrides },
-  //     (value, key) => this.props[key] !== value
-  //   );
-  //
-  //   if (Object.keys(changedProps).length > 0) {
-  //     this.setState({
-  //       composedTheme: this.composeLibraryTheme(theme, themeOverrides, ROOT_THEME_API)
-  //     });
-  //   }
-  // }
+  // checks if theme and/or themeOverrides props have changed
+  // in order to update state before rendering
+  componentWillReceiveProps(nextProps: Props) {
+    const { theme, themeOverrides } = nextProps;
+
+    const changedProps = _.pickBy(
+      { theme, themeOverrides },
+      (value, key) => this.props[key] !== value
+    );
+
+    if (Object.keys(changedProps).length > 0) {
+      this.setState({
+        theme: this.composeLibraryTheme(theme, themeOverrides, ROOT_THEME_API)
+      });
+    }
+  }
 
   // composeLibraryTheme returns a single obj containing theme definitions
   // for every component in the library.
