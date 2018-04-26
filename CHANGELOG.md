@@ -12,10 +12,7 @@ Major breaking changes due to large refactoring of component architecture:
 * Removes skin parts
 * Manages refs by passing them from parent to child
 * Removes inheritance architecture
-
-[PR 58](https://github.com/input-output-hk/react-polymorph/pull/58)
-* Adds ESLint config from Daedalus and integrates flow library & static type declarations.
-* Removes propTypes from all components and removes prop-types lib from dependencies.
+* Adds ESLint config from Daedalus and integrates flow library & static type declarations. Removes propTypes from all components and removes prop-types lib from dependencies. [PR 58](https://github.com/input-output-hk/react-polymorph/pull/58)
 
 ## Features
 * Implements React's new context API available in react & react-dom v16.3.0^
