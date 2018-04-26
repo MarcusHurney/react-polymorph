@@ -13,8 +13,11 @@ Major breaking changes due to large refactoring of component architecture:
 * Manages refs by passing them from parent to child
 * Removes inheritance architecture
 
-## Features
+[PR 58](https://github.com/input-output-hk/react-polymorph/pull/58)
+* Adds ESLint config from Daedalus and integrates flow library & static type declarations.
+* Removes propTypes from all components and removes prop-types lib from dependencies.
 
+## Features
 * Implements React's new context API available in react & react-dom v16.3.0^
 
 * Implements new ref forwarding API for use with Autocomplete's clear feature.
@@ -24,6 +27,8 @@ Major breaking changes due to large refactoring of component architecture:
 * Adds renderSelections & renderOptions (render prop architecture) to Autocomplete for delegating custom rendering to the user while still giving the user access to the the component's logic and styles. (think "writing a custom skin on the fly", see Autocomplete stories).
 
 * Adds render prop to Options component
+
+* Add checkmark for selected option [PR 54](https://github.com/input-output-hk/react-polymorph/pull/54)
 
 * Add Autocomplete clear feature [PR 49](https://github.com/input-output-hk/react-polymorph/pull/49)
 

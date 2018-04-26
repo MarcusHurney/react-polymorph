@@ -37,7 +37,7 @@ type Props = {
   optionRenderer: Function,
   render: Function,
   resetOnClose: boolean,
-  selectedOptionValue: string,
+  selectedOption: any,
   skin: ComponentType<any>,
   selectedOptions: Array<any>,
   theme: Object, // will take precedence over theme in context if passed
@@ -145,6 +145,13 @@ class Options extends Component<Props, State> {
     ) {
       this.setState({ highlightedOptionIndex: optionIndex });
     }
+  };
+
+  isSelectedOption = (optionIndex: number) => {
+    const { options, isOpeningUpward } = this.props;
+    const index = isOpeningUpward ? options.length - 1 - optionIndex : optionIndex;
+    const option = options[index];
+    return option && this.props.selectedOption === option;
   };
 
   isHighlightedOption = (optionIndex: number) => {
@@ -317,6 +324,7 @@ class Options extends Component<Props, State> {
         isOpen={isOpen}
         highlightedOptionIndex={highlightedOptionIndex}
         getHighlightedOptionIndex={this.getHighlightedOptionIndex}
+        isSelectedOption={this.isSelectedOption}
         isHighlightedOption={this.isHighlightedOption}
         handleClickOnOption={this.handleClickOnOption}
         setHighlightedOptionIndex={this.setHighlightedOptionIndex}
