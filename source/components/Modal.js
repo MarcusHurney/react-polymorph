@@ -1,13 +1,13 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import { withTheme } from '../themes/withTheme';
 
 // internal utiltity functions
-import { composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   contentLabel: string | Element,
@@ -30,7 +30,7 @@ type State = {
 
 class Modal extends Component<Props, State> {
   static defaultProps = {
-    contentLabel: "Modal Dialog",
+    contentLabel: 'Modal Dialog',
     isActive: false,
     triggerCloseOnOverlayClick: true,
     theme: null,

@@ -1,13 +1,13 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import ReactDOM from "react-dom";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import ReactDOM from 'react-dom';
 
 // external libraries
-import classnames from "classnames";
+import classnames from 'classnames';
 
 // internal utility functions
+import { withTheme } from '../themes/withTheme';
 import {
   composeTheme,
   addEventsToDocument,
@@ -15,10 +15,10 @@ import {
   targetIsDescendant,
   composeFunctions,
   addThemeId
-} from "../utils";
+} from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   context: {
@@ -57,7 +57,7 @@ class Options extends Component<Props, State> {
   static defaultProps = {
     isOpen: false,
     isOpeningUpward: false,
-    noResultsMessage: "No results",
+    noResultsMessage: 'No results',
     resetOnClose: false,
     theme: null,
     themeId: IDENTIFIERS.OPTIONS,
@@ -90,7 +90,7 @@ class Options extends Component<Props, State> {
     // update isOpen state when parent component force open / close options
     // (e.g. click on Input in Select component)
     if (!this.state.isOpen && nextState.isOpen) {
-      window.addEventListener("resize", this._handleWindowResize);
+      window.addEventListener('resize', this._handleWindowResize);
       addEventsToDocument(this._getDocumentEvents());
     }
   }
@@ -154,9 +154,7 @@ class Options extends Component<Props, State> {
     return option && this.props.selectedOption === option;
   };
 
-  isHighlightedOption = (optionIndex: number) => {
-    return this.state.highlightedOptionIndex === optionIndex;
-  };
+  isHighlightedOption = (optionIndex: number) => this.state.highlightedOptionIndex === optionIndex;
 
   isDisabledOption = (optionIndex: number) => {
     const { options } = this.props;
@@ -229,7 +227,7 @@ class Options extends Component<Props, State> {
     if (options.length) {
       const lowerIndexBound = 0;
       const upperIndexBound = options.length - 1;
-      let newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      let newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
 
       // Make sure new index is within options bounds
       newIndex = Math.max(lowerIndexBound, Math.min(newIndex, upperIndexBound));
@@ -239,16 +237,14 @@ class Options extends Component<Props, State> {
         const canMoveUp = newIndex > lowerIndexBound;
         const canMoveDown = newIndex < upperIndexBound;
         if (
-          (direction === "up" && canMoveUp) ||
-          (direction === "down" && canMoveDown)
+          (direction === 'up' && canMoveUp) ||
+          (direction === 'down' && canMoveDown)
         ) {
           this._handleHighlightMove(newIndex, direction);
         }
       } else {
         this.setHighlightedOptionIndex(newIndex);
       }
-    } else {
-      event.preventDefault();
     }
   };
 
@@ -267,11 +263,11 @@ class Options extends Component<Props, State> {
         break;
       case 38: // Move selection higlight 'up' on Arrow Up key
         event.preventDefault(); // prevent caret move
-        this._handleHighlightMove(highlightOptionIndex, "up");
+        this._handleHighlightMove(highlightOptionIndex, 'up');
         break;
       case 40: // Move selection higlight 'down' on Arrow Down key
         event.preventDefault(); // prevent caret move
-        this._handleHighlightMove(highlightOptionIndex, "down");
+        this._handleHighlightMove(highlightOptionIndex, 'down');
         break;
       default:
         this.props.resetOnClose && this.setHighlightedOptionIndex(0);
@@ -279,8 +275,7 @@ class Options extends Component<Props, State> {
   };
 
   _handleDocumentClick = (event: SyntheticMouseEvent<>) => {
-    const root = this.optionsElement;
-    const isDescendant = targetIsDescendant(event, ReactDOM.findDOMNode(root));
+    const isDescendant = targetIsDescendant(event, this.optionsElement);
 
     if (this.state.isOpen && !isDescendant) {
       this.close();
@@ -293,7 +288,7 @@ class Options extends Component<Props, State> {
 
   _removeAllEventListeners() {
     removeEventsFromDocument(this._getDocumentEvents());
-    window.removeEventListener("resize", this._handleWindowResize);
+    window.removeEventListener('resize', this._handleWindowResize);
   }
 
   _getDocumentEvents() {

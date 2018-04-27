@@ -1,13 +1,13 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import { withTheme } from '../themes/withTheme';
 
 // import utility functions
-import { composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   context: {
@@ -45,7 +45,7 @@ class FormField extends Component<Props, State> {
     const { context, themeId, theme, themeOverrides } = props;
 
     this.state = {
-      error: "",
+      error: '',
       composedTheme: composeTheme(
         addThemeId(theme || context.theme, themeId),
         addThemeId(themeOverrides, themeId),

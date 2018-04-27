@@ -1,13 +1,13 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import { withTheme } from '../themes/withTheme';
 
 // internal utility functions
-import { composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   context: {

@@ -1,16 +1,14 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
-
-// external libraries
-import { isString, flow } from "lodash";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import { isString, flow } from 'lodash';
 
 // internal utility functions
-import { composeTheme, addThemeId } from "../utils";
+import { withTheme } from '../themes/withTheme';
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   autoFocus: boolean,
@@ -47,21 +45,19 @@ class Input extends Component<Props, State> {
 
   static defaultProps = {
     autoFocus: false,
-    error: "",
+    error: '',
     onRef: () => {},
     readOnly: false,
     theme: null,
     themeId: IDENTIFIERS.INPUT,
     themeOverrides: {},
-    value: ""
+    value: ''
   };
 
   constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;
-    const test1 = addThemeId(theme || context.theme, themeId);
-    const test2 = addThemeId(themeOverrides, themeId);
 
     this.state = {
       composedTheme: composeTheme(
@@ -69,7 +65,7 @@ class Input extends Component<Props, State> {
         addThemeId(themeOverrides, themeId),
         context.ROOT_THEME_API
       ),
-      error: ""
+      error: ''
     };
   }
 
@@ -112,8 +108,9 @@ class Input extends Component<Props, State> {
   }
 
   _enforceStringValue(value) {
-    if (!isString(value))
-      throw "Values passed to Input::onChange must be strings";
+    if (!isString(value)) {
+      throw new Error('Values passed to Input::onChange must be strings');
+    }
     return value;
   }
 
@@ -128,9 +125,9 @@ class Input extends Component<Props, State> {
     const isTooShort = minLength != null && value.length < minLength;
 
     if (isTooShort) {
-      this._setError(`Please enter a valid input`);
-    } else if (this.state.error !== "") {
-      this._setError("");
+      this._setError('Please enter a valid input');
+    } else if (this.state.error !== '') {
+      this._setError('');
     }
 
     return value;

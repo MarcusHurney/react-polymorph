@@ -1,15 +1,15 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
 
 // external libraries
-import _ from "lodash";
+import _ from 'lodash';
 
 // internal utility functions
-import { composeTheme, composeFunctions, addThemeId } from "../utils";
+import { withTheme } from '../themes/withTheme';
+import { composeTheme, composeFunctions, addThemeId } from '../utils';
 
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   context: {
@@ -77,8 +77,8 @@ class Autocomplete extends Component<Props, State> {
     } = props;
 
     this.state = {
-      inputValue: "",
-      error: "",
+      inputValue: '',
+      error: '',
       selectedOptions: selectedOptions || [],
       filteredOptions:
         sortAlphabetically && options ? options.sort() : options || [],
@@ -129,7 +129,7 @@ class Autocomplete extends Component<Props, State> {
     const value = event.target.value;
 
     // filter out invalid characters
-    const filteredValue = this._filterInvalidChars(event.target.value);
+    const filteredValue = this._filterInvalidChars(value);
 
     // filter options
     const filteredOptions = this._filterOptions(filteredValue);
@@ -161,7 +161,7 @@ class Autocomplete extends Component<Props, State> {
       (canMoreOptionsBeSelected && areFilteredOptionsAvailable)
     ) {
       if (!selectedOption) return;
-      let option = selectedOption.trim();
+      const option = selectedOption.trim();
       const optionCanBeSelected =
         (this.state.selectedOptions.indexOf(option) < 0 &&
           !this.props.multipleSameSelections) ||
@@ -174,7 +174,7 @@ class Autocomplete extends Component<Props, State> {
       }
     }
 
-    this.setState({ inputValue: "" });
+    this.setState({ inputValue: '' });
   };
 
   removeOption = (index: number, event: SyntheticEvent<>) => {
@@ -250,14 +250,14 @@ class Autocomplete extends Component<Props, State> {
   _removeOptions = () => {
     const { onChange } = this.props;
     onChange ? onChange([]) : null;
-    this.setState({ selectedOptions: [], inputValue: "" });
+    this.setState({ selectedOptions: [], inputValue: '' });
   };
 
   _filterOptions = (value: string) => {
     let filteredOptions = [];
 
-    if (value !== "") {
-      _.some(this.props.options, function(option) {
+    if (value !== '') {
+      _.some(this.props.options, (option) => {
         if (_.startsWith(option, value)) {
           filteredOptions.push(option);
         }
@@ -270,10 +270,10 @@ class Autocomplete extends Component<Props, State> {
   };
 
   _filterInvalidChars = (value: string) => {
-    let filteredValue = "";
+    let filteredValue = '';
 
     if (this.props.invalidCharsRegex.test(value)) {
-      filteredValue = value.replace(this.props.invalidCharsRegex, "");
+      filteredValue = value.replace(this.props.invalidCharsRegex, '');
     } else {
       filteredValue = value;
     }

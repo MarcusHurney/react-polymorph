@@ -1,16 +1,16 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
 
 // external libraries
-import { isString, flow } from "lodash";
+import { isString, flow } from 'lodash';
 
 // import utility functions
-import { composeTheme, addThemeId } from "../utils";
+import { withTheme } from '../themes/withTheme';
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   autoFocus: boolean,
@@ -51,7 +51,7 @@ class TextArea extends Component<Props, State> {
     theme: null,
     themeId: IDENTIFIERS.TEXT_AREA,
     themeOverrides: {},
-    value: ""
+    value: ''
   };
 
   constructor(props: Props) {
@@ -65,7 +65,7 @@ class TextArea extends Component<Props, State> {
         addThemeId(themeOverrides, themeId),
         context.ROOT_THEME_API
       ),
-      error: ""
+      error: ''
     };
   }
 
@@ -73,7 +73,7 @@ class TextArea extends Component<Props, State> {
     const { autoResize, autoFocus, onRef } = this.props;
 
     if (autoResize) {
-      window.addEventListener("resize", this._handleAutoresize);
+      window.addEventListener('resize', this._handleAutoresize);
       this._handleAutoresize();
     }
 
@@ -88,9 +88,9 @@ class TextArea extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.autoResize && nextProps.autoResize) {
-      window.addEventListener("resize", this._handleAutoresize);
+      window.addEventListener('resize', this._handleAutoresize);
     } else if (this.props.autoResize && !nextProps.autoResize) {
-      window.removeEventListener("resize", this._handleAutoresize);
+      window.removeEventListener('resize', this._handleAutoresize);
     }
   }
 
@@ -100,7 +100,7 @@ class TextArea extends Component<Props, State> {
 
   componentWillUnmount() {
     if (this.props.autoResize) {
-      window.removeEventListener("resize", this._handleAutoresize);
+      window.removeEventListener('resize', this._handleAutoresize);
     }
   }
 
@@ -124,8 +124,9 @@ class TextArea extends Component<Props, State> {
   }
 
   _enforceStringValue(value: string) {
-    if (!isString(value))
-      throw "Values passed to Input::onChange must be strings";
+    if (!isString(value)) {
+      throw new Error('Values passed to TextArea::onChange must be strings');
+    }
     return value;
   }
 
@@ -140,9 +141,9 @@ class TextArea extends Component<Props, State> {
     const isTooShort = minLength != null && value.length < minLength;
 
     if (isTooShort) {
-      this._setError(`Please enter a valid input`);
-    } else if (this.state.error !== "") {
-      this._setError("");
+      this._setError('Please enter a valid input');
+    } else if (this.state.error !== '') {
+      this._setError('');
     }
 
     return value;
@@ -154,15 +155,15 @@ class TextArea extends Component<Props, State> {
     if (!textareaElement) return;
 
     // compute the height difference between inner height and outer height
-    const style = getComputedStyle(textareaElement, "");
+    const style = getComputedStyle(textareaElement, '');
     const heightOffset =
-      style.boxSizing === "content-box"
+      style.boxSizing === 'content-box'
         ? -(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom))
         : parseFloat(style.borderTopWidth) +
           parseFloat(style.borderBottomWidth);
 
     // resize the input to its content size
-    textareaElement.style.height = "auto";
+    textareaElement.style.height = 'auto';
     textareaElement.style.height = `${textareaElement.scrollHeight +
       heightOffset}px`;
   }

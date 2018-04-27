@@ -1,20 +1,20 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import { withTheme } from '../themes/withTheme';
 
 // import utility functions
-import { composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId, generateId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
+  checked: boolean,
   context: {
     theme: Object,
     ROOT_THEME_API: Object
   },
-  checked: boolean,
   label: string | Element,
   onChange: Function,
   onBlur: Function,
@@ -30,6 +30,8 @@ type State = {
 };
 
 class Checkbox extends Component<Props, State> {
+  controlId = generateId(this.props.themeId);
+
   static defaultProps = {
     checked: false,
     disabled: false,
@@ -53,10 +55,11 @@ class Checkbox extends Component<Props, State> {
   }
 
   render() {
+    console.log(this.controlId);
     // destructuring props ensures only the "...rest" get passed down
     const { skin: CheckboxSkin, theme, themeOverrides, ...rest } = this.props;
 
-    return <CheckboxSkin theme={this.state.composedTheme} {...rest} />;
+    return <CheckboxSkin controlId={this.controlId} theme={this.state.composedTheme} {...rest} />;
   }
 }
 

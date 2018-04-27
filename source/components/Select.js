@@ -1,13 +1,13 @@
 // @flow
-import React, { Component } from "react";
-import type { ComponentType } from "react";
-import { withTheme } from "../themes/withTheme";
+import React, { Component } from 'react';
+import type { ComponentType } from 'react';
+import { withTheme } from '../themes/withTheme';
 
 // import internal utility functions
-import { composeTheme, addThemeId } from "../utils";
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
-import { IDENTIFIERS } from "../themes/API";
+import { IDENTIFIERS } from '../themes/API';
 
 type Props = {
   allowBlank: boolean,
@@ -47,7 +47,7 @@ class Select extends Component<Props, State> {
     theme: null,
     themeOverrides: {},
     themeId: IDENTIFIERS.SELECT,
-    value: ""
+    value: ''
   };
 
   constructor(props: Props) {
