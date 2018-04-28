@@ -4,5 +4,5 @@ export default {
   openUpward: '',
   transparent: '',
   isFloating: '',
-  isHidden: '',
+  isHidden: ''
 };

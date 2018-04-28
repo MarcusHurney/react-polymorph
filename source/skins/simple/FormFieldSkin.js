@@ -11,9 +11,16 @@ export default props => (
       props.error ? props.theme[props.themeId].errored : null
     ])}
   >
-    {props.error && <div className={props.theme[props.themeId].error}>{props.error}</div>}
+    {props.error && (
+      <div className={props.theme[props.themeId].error}>{props.error}</div>
+    )}
     {props.label && (
-      <label className={props.theme[props.themeId].label} onClick={props.focusChild}>
+      <label
+        role="presentation"
+        aria-hidden
+        className={props.theme[props.themeId].label}
+        onClick={props.focusChild}
+      >
         {props.label}
       </label>
     )}

@@ -1,28 +1,36 @@
+// @flow
 import React, { Component } from 'react';
-import { string, bool, func, object, shape } from 'prop-types';
+import type { ComponentType } from 'react';
 import { withTheme } from '../themes/withTheme';
 
 // import utility functions
-import { StringOrElement, composeTheme, addThemeId } from '../utils';
+import { composeTheme, addThemeId } from '../utils';
 
 // import constants
 import { IDENTIFIERS } from '../themes/API';
 
-class FormField extends Component {
-  static propTypes = {
-    context: shape({
-      theme: object,
-      ROOT_THEME_API: object
-    }),
-    disabled: bool,
-    error: StringOrElement,
-    label: StringOrElement,
-    render: func.isRequired,
-    skin: func.isRequired,
-    theme: object,
-    themeId: string,
-    themeOverrides: object // custom css/scss from user that adheres to component's theme API
-  };
+type Props = {
+  context: {
+    theme: Object,
+    ROOT_THEME_API: Object
+  },
+  disabled: boolean,
+  error: string | Element,
+  label: string | Element,
+  render: Function,
+  skin: ComponentType<any>,
+  theme: Object, // will take precedence over theme in context if passed
+  themeId: string,
+  themeOverrides: Object
+};
+
+type State = {
+  error: string,
+  composedTheme: Object
+};
+
+class FormField extends Component<Props, State> {
+  child: HTMLInputElement;
 
   static defaultProps = {
     disabled: false,
@@ -31,7 +39,7 @@ class FormField extends Component {
     themeOverrides: {}
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { context, themeId, theme, themeOverrides } = props;
@@ -46,7 +54,7 @@ class FormField extends Component {
     };
   }
 
-  setError = error => this.setState({ error });
+  setError = (error: string) => this.setState({ error });
 
   focusChild = () => {
     if (this.child && this.child.focus !== undefined) {
@@ -54,7 +62,7 @@ class FormField extends Component {
     }
   };
 
-  onRef = ref => (this.child = ref);
+  onRef = (ref: HTMLInputElement) => (this.child = ref);
 
   render() {
     // destructuring props ensures only the "...rest" get passed down

@@ -7,9 +7,19 @@ import classnames from 'classnames';
 import { pickDOMProps } from '../../utils';
 
 export default props => {
-  const { theme, themeId, className, disabled, selected, onChange, label } = props;
+  const {
+    theme,
+    themeId,
+    className,
+    disabled,
+    selected,
+    onChange,
+    label
+  } = props;
   return (
     <div
+      role="presentation"
+      aria-hidden
       className={classnames([
         className,
         theme[themeId].root,
@@ -33,7 +43,7 @@ export default props => {
           selected ? theme[themeId].selected : null
         ])}
       />
-      {label ? (<label className={theme[themeId].label}>{label}</label>) : null}
+      {label ? <label className={theme[themeId].label}>{label}</label> : null}
     </div>
   );
 };

@@ -10,6 +10,8 @@ export default props => {
   const { theme, themeId } = props;
   return (
     <div
+      role="presentation"
+      aria-hidden
       className={classnames([
         props.className,
         theme[themeId].root,

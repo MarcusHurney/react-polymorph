@@ -42,7 +42,7 @@ export const IDENTIFIERS = {
   AUTOCOMPLETE: 'autocomplete',
   OPTIONS: 'options',
   MODAL: 'modal',
-  RADIO: 'radio',
+  RADIO: 'radio'
 };
 
 export default {
