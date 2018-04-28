@@ -1,58 +1,54 @@
-import React from "react";
-import classnames from "classnames";
+import React from 'react';
+import classnames from 'classnames';
 // storybook
-import { storiesOf } from "@storybook/react";
-import { withState } from "@dump247/storybook-state";
+import { storiesOf } from '@storybook/react';
+import { withState } from '@dump247/storybook-state';
 
 // components
-import { Autocomplete, Modal, Button } from "../source/components";
+import { Autocomplete, Modal, Button } from '../source/components';
 
 // skins
 import {
   AutocompleteSkin,
   ModalSkin,
   ButtonSkin
-} from "../source/skins/simple";
+} from '../source/skins/simple';
 
 // themes
-import SimpleTheme from "../source/themes/simple";
-import CustomAutocompleteTheme from "./theme-customizations/Autocomplete.custom.scss";
+import CustomAutocompleteTheme from './theme-customizations/Autocomplete.custom.scss';
 
 // custom styles & theme overrides
-import styles from "./Autocomplete.stories.scss";
-import themeOverrides from "./theme-overrides/customAutocomplete.scss";
-import trashIcon from "./images/trash-icon.png";
-
-// constants
-import { IDENTIFIERS } from "../source/themes/API";
+import styles from './Autocomplete.stories.scss';
+import themeOverrides from './theme-overrides/customAutocomplete.scss';
+import trashIcon from './images/trash-icon.png';
 
 const OPTIONS = [
-  "home",
-  "cat",
-  "dog",
-  "fish",
-  "hide",
-  "hover",
-  "duck",
-  "category",
-  "join",
-  "paper",
-  "box",
-  "tab"
+  'home',
+  'cat',
+  'dog',
+  'fish',
+  'hide',
+  'hover',
+  'duck',
+  'category',
+  'join',
+  'paper',
+  'box',
+  'tab'
 ];
 
-storiesOf("Autocomplete", module)
+storiesOf('Autocomplete', module)
   // ====== Stories ======
 
-  .add("Enter mnemonics - plain", () => (
+  .add('Enter mnemonics - plain', () => (
     <Autocomplete skin={AutocompleteSkin} />
   ))
 
-  .add("Enter mnemonics - label", () => (
+  .add('Enter mnemonics - label', () => (
     <Autocomplete label="Recovery phrase" skin={AutocompleteSkin} />
   ))
 
-  .add("Enter mnemonics - placeholder", () => (
+  .add('Enter mnemonics - placeholder', () => (
     <Autocomplete
       label="Recovery phrase"
       placeholder="Enter recovery phrase"
@@ -60,7 +56,7 @@ storiesOf("Autocomplete", module)
     />
   ))
 
-  .add("Enter mnemonics - error", () => (
+  .add('Enter mnemonics - error', () => (
     <Autocomplete
       label="Recovery phrase"
       placeholder="Enter recovery phrase"
@@ -69,8 +65,7 @@ storiesOf("Autocomplete", module)
     />
   ))
 
-  .add(
-    "(9-word mnemonic) - not sorted",
+  .add('(9-word mnemonic) - not sorted',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         label="Recovery phrase"
@@ -85,8 +80,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "(9-word mnemonic) - sorted with multiple same selections",
+  .add('(9-word mnemonic) - sorted with multiple same selections',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         label="Recovery phrase"
@@ -99,8 +93,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "(12-word mnemonic) 5 suggestions",
+  .add('(12-word mnemonic) 5 suggestions',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         label="Recovery phrase"
@@ -114,8 +107,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "(12-word mnemonic) 5 suggestions - isOpeningUpward",
+  .add('(12-word mnemonic) 5 suggestions - isOpeningUpward',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         className={styles.customMargin}
@@ -131,8 +123,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "(12-word mnemonic) 5 suggestions and regex that allows only letters",
+  .add('(12-word mnemonic) 5 suggestions and regex that allows only letters',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         label="Recovery phrase"
@@ -147,8 +138,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "Enter mnemonics in Modal",
+  .add('Enter mnemonics in Modal',
     withState({ isOpen: true, selectedOpts: [] }, store => (
       <Modal
         isOpen={store.state.isOpen}
@@ -184,7 +174,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add("Clear value on click", () => {
+  .add('Clear value on click', () => {
     const autocompleteRef = React.createRef();
     return (
       <div>
@@ -199,9 +189,8 @@ storiesOf("Autocomplete", module)
       </div>
     );
   })
-
-  .add(
-    "Render prop - renderSelections",
+  /*eslint-disable */
+  .add('Render prop - renderSelections',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         label="Recovery phrase"
@@ -227,12 +216,14 @@ storiesOf("Autocomplete", module)
 
           return selectedOptions.map((option, index) => (
             <span className={theme.selectedWordBox} key={index}>
-              <span style={{ color: "#fff", margin: "2px 5px 0 0" }}>
+              <span style={{ color: '#fff', margin: '2px 5px 0 0' }}>
                 {option}
               </span>
 
               <span
-                style={{ cursor: "pointer" }}
+                role="presentation"
+                aria-hidden
+                style={{ cursor: 'pointer' }}
                 onClick={removeSelection.bind(null, index)}
               >
                 <img width="20px" height="20px" src={trashIcon} />
@@ -244,15 +235,14 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "Render prop - renderOptions",
+  .add('Render prop - renderOptions',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         label="Select an Option Multiple Times"
         options={OPTIONS}
         placeholder="Enter mnemonic..."
-        sortAlphabetically={true}
-        multipleSameSelections={true}
+        sortAlphabetically
+        multipleSameSelections
         maxSelections={10}
         maxVisibleOptions={7}
         skin={AutocompleteSkin}
@@ -282,6 +272,8 @@ storiesOf("Autocomplete", module)
 
             return (
               <li
+                role="presentation"
+                aria-hidden
                 key={index}
                 className={classnames([
                   theme.option,
@@ -297,9 +289,9 @@ storiesOf("Autocomplete", module)
                 {timesSelected ? (
                   <span
                     style={{
-                      fontStyle: "italic",
-                      fontSize: "12px",
-                      marginLeft: "1rem"
+                      fontStyle: 'italic',
+                      fontSize: '12px',
+                      marginLeft: '1rem'
                     }}
                   >
                     {`times selected: ${timesSelected}`}
@@ -312,9 +304,8 @@ storiesOf("Autocomplete", module)
       />
     ))
   )
-
-  .add(
-    "theme overrides",
+  /*eslint-disable */
+  .add('theme overrides',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         themeOverrides={themeOverrides}
@@ -330,8 +321,7 @@ storiesOf("Autocomplete", module)
     ))
   )
 
-  .add(
-    "custom theme",
+  .add('custom theme',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
         theme={CustomAutocompleteTheme}

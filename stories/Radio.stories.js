@@ -1,29 +1,26 @@
-import React from "react";
+import React from 'react';
 
 // storybook
-import { storiesOf } from "@storybook/react";
-import { withState } from "@dump247/storybook-state";
+import { storiesOf } from '@storybook/react';
+import { withState } from '@dump247/storybook-state';
 
 // components
-import { Radio } from "../source/components";
+import { Radio } from '../source/components';
 
 // skins
-import { RadioSkin } from "../source/skins/simple";
+import { RadioSkin } from '../source/skins/simple';
 
 // themes
-import SimpleTheme from "../source/themes/simple";
-import CustomRadioTheme from "./theme-customizations/Radio.custom.scss";
+import CustomRadioTheme from './theme-customizations/Radio.custom.scss';
 
 // custom styles & theme overrides
-import styles from "./Radio.stories.scss";
-import themeOverrides from "./theme-overrides/customRadio.scss";
-import { IDENTIFIERS } from "../source/themes/API";
+import styles from './Radio.stories.scss';
+import themeOverrides from './theme-overrides/customRadio.scss';
 
-storiesOf("Radio", module)
+storiesOf('Radio', module)
   // ====== Stories ======
 
-  .add(
-    "plain",
+  .add('plain',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio
@@ -35,17 +32,13 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "disabled",
-    withState({ selected: false }, store => (
-      <div className={styles.container}>
-        <Radio disabled skin={RadioSkin} />
-      </div>
-    ))
-  )
+  .add('disabled', () => (
+    <div className={styles.container}>
+      <Radio disabled skin={RadioSkin} />
+    </div>
+  ))
 
-  .add(
-    "short label",
+  .add('short label',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio
@@ -58,8 +51,7 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "custom className",
+  .add('custom className',
     withState({ selected: false }, store => (
       <Radio
         className={styles.padding}
@@ -70,8 +62,7 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "disabled with label",
+  .add('disabled with label',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio
@@ -85,8 +76,7 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "long label",
+  .add('long label',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio
@@ -101,8 +91,7 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "html label",
+  .add('html label',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio
@@ -119,8 +108,7 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "theme overrides",
+  .add('theme overrides',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio
@@ -134,8 +122,7 @@ storiesOf("Radio", module)
     ))
   )
 
-  .add(
-    "custom theme",
+  .add('custom theme',
     withState({ selected: false }, store => (
       <div className={styles.container}>
         <Radio

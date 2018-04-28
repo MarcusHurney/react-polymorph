@@ -1,28 +1,26 @@
-import React from "react";
+import React from 'react';
 
 // storybook
-import { storiesOf } from "@storybook/react";
-import { withState } from "@dump247/storybook-state";
+import { storiesOf } from '@storybook/react';
+import { withState } from '@dump247/storybook-state';
 
 // components
-import { Checkbox } from "../source/components";
+import { Checkbox } from '../source/components';
 
 // skins
-import { SwitchSkin } from "../source/skins/simple";
+import { SwitchSkin } from '../source/skins/simple';
 
 // themes
-import SimpleTheme from "../source/themes/simple";
-import CustomSwitchTheme from "./theme-customizations/Switch.custom.scss";
+import CustomSwitchTheme from './theme-customizations/Switch.custom.scss';
 
 // custom styles & theme overrides
-import themeOverrides from "./theme-overrides/customSwitch.scss";
-import { IDENTIFIERS } from "../source/themes/API";
+import themeOverrides from './theme-overrides/customSwitch.scss';
+import { IDENTIFIERS } from '../source/themes/API';
 
-storiesOf("Switch", module)
+storiesOf('Switch', module)
   // ====== Stories ======
 
-  .add(
-    "plain",
+  .add('plain',
     withState({ checked: false }, store => (
       <Checkbox
         checked={store.state.checked}
@@ -33,15 +31,11 @@ storiesOf("Switch", module)
     ))
   )
 
-  .add(
-    "disabled",
-    withState({ checked: false }, store => (
-      <Checkbox disabled themeId={IDENTIFIERS.SWITCH} skin={SwitchSkin} />
-    ))
-  )
+  .add('disabled', () => (
+    <Checkbox disabled themeId={IDENTIFIERS.SWITCH} skin={SwitchSkin} />
+  ))
 
-  .add(
-    "short label",
+  .add('short label',
     withState({ checked: false }, store => (
       <Checkbox
         label="My switch"
@@ -53,8 +47,7 @@ storiesOf("Switch", module)
     ))
   )
 
-  .add(
-    "disabled with label",
+  .add('disabled with label',
     withState({ checked: false }, store => (
       <Checkbox
         disabled
@@ -67,8 +60,7 @@ storiesOf("Switch", module)
     ))
   )
 
-  .add(
-    "long label",
+  .add('long label',
     withState({ checked: false }, store => (
       <Checkbox
         label="I understand that if this application is moved to another device or deleted,
@@ -82,10 +74,9 @@ storiesOf("Switch", module)
     ))
   )
 
-  .add(
-    "theme overrides",
+  .add('theme overrides',
     withState({ checked: false }, store => (
-      <div style={{ margin: "15px" }}>
+      <div style={{ margin: '15px' }}>
         <Checkbox
           themeId={IDENTIFIERS.SWITCH}
           themeOverrides={themeOverrides}
@@ -98,10 +89,9 @@ storiesOf("Switch", module)
     ))
   )
 
-  .add(
-    "custom theme",
+  .add('custom theme',
     withState({ checked: false }, store => (
-      <div style={{ margin: "15px" }}>
+      <div style={{ margin: '15px' }}>
         <Checkbox
           themeId={IDENTIFIERS.SWITCH}
           theme={CustomSwitchTheme}
