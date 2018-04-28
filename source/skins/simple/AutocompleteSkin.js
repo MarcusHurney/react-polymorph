@@ -1,17 +1,18 @@
-import React from "react";
+import React from 'react';
 
 // external libraries
-import _ from "lodash";
-import classnames from "classnames";
+import _ from 'lodash';
+import classnames from 'classnames';
 
 // components
-import { FormField, Options } from "../../components";
+import { FormField, Options } from '../../components';
 
 // skins
-import { FormFieldSkin, OptionsSkin } from "./";
+import { FormFieldSkin, OptionsSkin } from './';
 
 export default props => {
-  const { label, error, theme, themeId } = props;
+  const { label, error } = props;
+  const theme = props.theme[props.themeId];
   const formfieldProps = { label, error };
 
   const filteredAndLimitedOptions = _.slice(
@@ -20,14 +21,12 @@ export default props => {
     props.maxVisibleOptions
   );
 
-  const isFirstOptionHighlighted = props.highlightedOptionIndex === 0;
-
   // show placeholder only if no maximum selections declared or maximum not reached
   const canMoreOptionsBeSelected =
     props.selectedOptions.length < props.maxSelections;
 
-  let placeholder =
-    !props.maxSelections || canMoreOptionsBeSelected ? props.placeholder : "";
+  const placeholder =
+    !props.maxSelections || canMoreOptionsBeSelected ? props.placeholder : '';
 
   const renderSelectedOptions = () => {
     // check if the user passed a renderSelections function
@@ -36,28 +35,28 @@ export default props => {
       return props.renderSelections(props.getSelectionProps);
     } else if (props.selectedOptions && !props.renderSelections) {
       // render default skin
-      return props.selectedOptions.map((selectedOption, index) => {
-        return (
-          <span className={theme[themeId].selectedWordBox} key={index}>
-            <span className={theme[themeId].selectedWordValue}>
-              {selectedOption}
-              <span
-                className={theme[themeId].selectedWordRemoveButton}
-                onClick={props.removeOption.bind(null, index)}
-              >
-                &times;
-              </span>
+      return props.selectedOptions.map((selectedOption, index) => (
+        <span className={theme.selectedWordBox} key={index}>
+          <span className={theme.selectedWordValue}>
+            {selectedOption}
+            <span
+              role="presentation"
+              aria-hidden
+              className={theme.selectedWordRemoveButton}
+              onClick={props.removeOption.bind(null, index)}
+            >
+              &times;
             </span>
           </span>
-        );
-      });
+        </span>
+      ));
     }
     return null;
   };
 
   // selected words and input for entering a new one
   const autocompleteContent = (
-    <div className={theme[themeId].selectedWords}>
+    <div className={theme.selectedWords}>
       {renderSelectedOptions()}
       <input
         ref={props.inputRef}
@@ -77,17 +76,19 @@ export default props => {
         skin={FormFieldSkin}
         render={() => (
           <div
-            className={theme[themeId].autocompleteWrapper}
+            role="presentation"
+            aria-hidden
+            className={theme.autocompleteWrapper}
             onClick={props.handleAutocompleteClick}
           >
             <div
               className={classnames([
-                theme[themeId].autocompleteContent,
-                props.isOpen ? theme[themeId].opened : null,
+                theme.autocompleteContent,
+                props.isOpen ? theme.opened : null,
                 props.selectedOptions.length
-                  ? theme[themeId].hasSelectedWords
+                  ? theme.hasSelectedWords
                   : null,
-                props.error ? theme[themeId].errored : null
+                props.error ? theme.errored : null
               ])}
               ref={props.suggestionsRef}
             >

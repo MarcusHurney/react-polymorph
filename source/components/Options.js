@@ -1,10 +1,11 @@
 // @flow
 import React, { Component } from 'react';
-import type { ComponentType } from 'react';
-import ReactDOM from 'react-dom';
-
-// external libraries
-import classnames from 'classnames';
+import type {
+  ComponentType,
+  SyntheticKeyboardEvent,
+  SyntheticMouseEvent,
+  SyntheticEvent
+} from 'react';
 
 // internal utility functions
 import { withTheme } from '../themes/withTheme';

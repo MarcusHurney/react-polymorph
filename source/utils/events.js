@@ -21,13 +21,17 @@ export default {
 
   addEventsToDocument(eventMap: {}) {
     for (const key in eventMap) {
-      document.addEventListener(key, eventMap[key], false);
+      if (Object.prototype.hasOwnProperty.call(eventMap, key)) {
+        document.addEventListener(key, eventMap[key], false);
+      }
     }
   },
 
   removeEventsFromDocument(eventMap: {}) {
     for (const key in eventMap) {
-      document.removeEventListener(key, eventMap[key], false);
+      if (Object.prototype.hasOwnProperty.call(eventMap, key)) {
+        document.removeEventListener(key, eventMap[key], false);
+      }
     }
   },
 
@@ -67,15 +71,15 @@ const TRANSITIONS: {
   MozTransition: string,
   WebkitTransition: string
 } = {
-  transition: "transitionend",
-  OTransition: "oTransitionEnd",
-  MozTransition: "transitionend",
-  WebkitTransition: "webkitTransitionEnd"
+  transition: 'transitionend',
+  OTransition: 'oTransitionEnd',
+  MozTransition: 'transitionend',
+  WebkitTransition: 'webkitTransitionEnd'
 };
 
 function transitionEventNamesFor(element: HTMLElement) {
   for (const transition in TRANSITIONS) {
-    if (element && element.style.hasOwnProperty(transition)) {
+    if (element && Object.prototype.hasOwnProperty.call(element.style, transition)) {
       return TRANSITIONS[transition];
     }
   }
