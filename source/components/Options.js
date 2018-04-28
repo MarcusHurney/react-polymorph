@@ -1,11 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import type {
-  ComponentType,
-  SyntheticKeyboardEvent,
-  SyntheticMouseEvent,
-  SyntheticEvent
-} from 'react';
+
+// $FlowFixMe
+import type { ComponentType, SyntheticKeyboardEvent, SyntheticMouseEvent, SyntheticEvent } from 'react';
 
 // internal utility functions
 import { withTheme } from '../themes/withTheme';
@@ -128,13 +125,11 @@ class Options extends Component<Props, State> {
     const { options, isOpeningUpward } = this.props;
     const currentIndex = this.state.highlightedOptionIndex;
     let index = 0;
+
     if (currentIndex !== null) {
       index = currentIndex;
-    } else if (this.props.selectedOptionValue) {
-      index = options.findIndex(
-        option => option.value === this.props.selectedOptionValue
-      );
     }
+
     if (isOpeningUpward) return options.length - 1 - index;
     return index;
   };
