@@ -1,4 +1,5 @@
 // @flow
+/* eslint space-before-function-paren:0 */
 export default {
   getMousePosition (event: SyntheticMouseEvent<>) {
     return {

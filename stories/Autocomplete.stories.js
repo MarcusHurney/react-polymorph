@@ -189,7 +189,7 @@ storiesOf('Autocomplete', module)
       </div>
     );
   })
-
+  /*eslint-disable */
   .add('render prop - renderSelections',
     withState({ selectedOpts: [] }, store => (
       <Autocomplete
